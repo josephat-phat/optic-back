@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <meta content="Coderthemes" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" src="assets/images/logo-sam.png">
+
+        <!-- App css -->
+        <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
+        <link href="/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-default-stylesheet" />
+
+        <link href="/assets/css/bootstrap-dark.min.css" rel="stylesheet" type="text/css" id="bs-dark-stylesheet" />
+        <link href="/assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="app-dark-stylesheet" />
+        {% block head %}{% endblock %}
+        <!-- icons -->
+        <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body class="loading">
+        <div id="wrapper">
+            {% if app.user %}
+            {% include "menu/menu.html.twig" %}
+            {% endif %}
+            {% for label, messages in app.flashes %}
+                <div class="container">
+                    <div class="alert alert-{{ label }}">
+                        {% for message in messages %}
+                            <p>{{ message | raw }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+            {% block body %}{% endblock %}
+        </div>
+
+         <!-- Vendor js -->
+        <script src="/assets/js/vendor.min.js"></script>
+        {% block javascripts %}
+            <!-- Chart JS -->
+            <script src="/assets/libs/chart.js/Chart.bundle.min.js"></script>
+
+            <script src="/assets/libs/moment/min/moment.min.js"></script>
+            <script src="/assets/libs/jquery.scrollto/jquery.scrollTo.min.js"></script>
+
+            <!-- Chat app -->
+            <script src="/assets/js/pages/jquery.chat.js"></script>
+
+            <!-- Todo app -->
+            <script src="/assets/js/pages/jquery.todo.js"></script>
+
+            <!-- Dashboard init JS -->
+            <script src="/assets/js/pages/dashboard-3.init.js"></script>
+    
+        {% endblock %}
+        
+        <!-- App js-->
+        <script src="/assets/js/app.min.js"></script>
+    </body>
+</html>

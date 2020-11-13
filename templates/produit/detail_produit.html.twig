@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit detail!{% endblock %}
+
+
+{% block body %}
+
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        {% for produit1 in produit %}
+                                        <a href="{{ path('modifier', { 'id': produit1.id }) }}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i>Modifier</a>
+                                        {% endfor %}
+                                    </div>
+                                    <h4 class="page-title">Shopping Cart</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-8">
+                                                <div class="table-responsive">
+                                                    <table class="table table-borderless table-centered mb-0">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <th>Images</th>
+                                                                <th>Couleurs</th>
+                                                                <th>Quantity</th>
+                                                                <th>Total</th>
+                                                                <th style="width: 50px;"></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        
+                                                            {% for image in images %}
+                                                            <tr>
+                                                                <td>
+                                                                    <img src="{{image.imagejpg}}" alt="contact-img"
+                                                                        title="contact-img" class="rounded mr-3" height="48" />
+                                                                    <p class="m-0 d-inline-block align-middle font-16">{{image.taxeCouleur}}</a>
+                                                                        <br>
+                                                                        <small class="mr-2"><b>Image SVG:</b></small>
+                                                                        <small>{{image.imagesvg}}
+                                                                        </small>
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    {{image.taxeCouleur}}
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" min="1" value="5" class="form-control" placeholder="Qty" style="width: 90px;">
+                                                                </td>
+                                                                <td>
+                                                                    $743.30
+                                                                </td>
+                                                                <td>
+                                                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div> <!-- end table-responsive-->
+                                                <!-- action buttons-->
+                                            </div>
+                                            <!-- end col -->
+                                            <div class="col-lg-4">
+                                                <div class="border p-3 mt-4 mt-lg-0 rounded">
+                                                    {% for produit1 in produit %}
+                                                    <h4 class="header-title mb-3">{{produit1.nom}}</h4>
+                                                    <div class="table-responsive">
+                                                        <table class="table mb-0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td colspan=2 style="text-align: justify">{{produit1.description|raw }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Marque : </td>
+                                                                    <td>{{produit1.marque}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Categorie :</td>
+                                                                    <td>{{produit1.categorie}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Statue:</td>
+                                                                    <td>{{produit1.statue}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Prix : </td>
+                                                                    <td>{{produit1.prix}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    {% endfor %}
+                                                    <!-- end table-responsive -->
+                                                </div>
+                                            </div> <!-- end col -->
+
+                                        </div> <!-- end row -->
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div> <!-- end col -->
+                        </div>
+                        <!-- end row -->
+                    </div> <!-- container -->
+                </div> <!-- content -->
+                <!-- Footer Start -->
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                2015 - <script>document.write(new Date().getFullYear())</script> &copy; UBold theme by <a href="#">Coderthemes</a> 
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-md-right footer-links d-none d-sm-block">
+                                    <a href="javascript:void(0);">About Us</a>
+                                    <a href="javascript:void(0);">Help</a>
+                                    <a href="javascript:void(0);">Contact Us</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+                <!-- end Footer -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->
+{% endblock %}

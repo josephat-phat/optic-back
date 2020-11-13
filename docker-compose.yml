@@ -1,0 +1,74 @@
+version: "3.7"
+
+services:
+  php:
+    build:
+      context: .
+      target: symfony_php
+      args:
+        SYMFONY_VERSION: ${SYMFONY_VERSION:-}
+        STABILITY: ${STABILITY:-stable}
+    healthcheck:
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+    volumes:
+      - ./docker/php/conf.d/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
+      # Comment out the next line in production
+      - ./:/srv/app:rw,cached
+      # If you develop on Linux, comment out the following volumes to just use bind-mounted project directory from host
+      - /srv/app/var/
+      - /srv/app/var/cache/
+      - /srv/app/var/logs/
+      - /srv/app/var/sessions/
+    depends_on:
+      - postgres
+    environment:
+      - SYMFONY_VERSION
+
+  postgres:
+    image: postgres:12.2-alpine
+    environment:
+      - LC_ALL=C.UTF-8
+      - POSTGRES_DB=congofood_db
+      - POSTGRES_USER=congofood_user
+      - POSTGRES_PASSWORD=!ChangeMe!
+    volumes:
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      - ./docker/postgres/data:/data
+      - /var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  
+  adminer:
+    image: adminer
+    depends_on:
+    - postgres
+    ports:
+    - 8001:8080    
+
+  webserver:
+    build:
+      context: .
+      target: symfony_nginx
+    depends_on:
+      - php
+    volumes:
+      # Comment out the next line in production
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./public:/srv/app/public:ro
+    ports:
+      - "8000:80"
+
+  # This HTTP/2 proxy is not secure: it should only be used in dev
+  h2-proxy:
+    build:
+      context: .
+      target: symfony_h2-proxy
+    depends_on:
+      - webserver
+    volumes:
+      - ./docker/h2-proxy/default.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "443:443"
